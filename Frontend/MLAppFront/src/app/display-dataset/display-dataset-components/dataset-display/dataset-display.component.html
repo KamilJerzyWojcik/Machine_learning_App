@@ -1,0 +1,42 @@
+<ul class="nav nav-tabs m-4">
+  <li class="nav-item">
+    <a class="nav-link" routerLinkActive="active" routerLink="/dataset_display/datasets">Manage Datasets</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLinkActive="active" routerLink="/dataset_display/statistics">Statistics</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLinkActive="active" routerLink="/dataset_display/charts">Charts</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLinkActive="active" routerLink="/dataset_display/table">Table</a>
+  </li>
+</ul>
+<div class="container m-4">
+  <router-outlet></router-outlet>
+</div>
+<!-- <p>
+  dataset-display works!
+  NgRx - utrzymywanie spójnych danych między komponentami
+  wyswietlanie current dataset dla kazdego komponentu
+  OnDestroy - jeeli nie zapisano zmian to czy zapisać ?
+  zamiast zapisywać caly nowy zestaw tylko procedure??
+  
+ 
+</p> -->
+<!-- 
+- lista modyfikacji konkretnego dataset (jeden do wielu), oryginalny nieedytowalny, niewybieralny
+  - usuwanie wszystkich modyfikacji po usunieciu oryginału
+  - export fo pliku zmodyfikowanych danych i oryginału
+
+wybranie w datset-display zbioru danych i wyświetlenie komponentów dla tego zestawu:
+- Wykresy 
+  + Tworzenie (podkomponent) i 
+  + wyświetlanie (podkomponent)
+- tabela , 
+  + wyswietlanie, usuwanie kolumn (podkomponent), 
+  + tworzenie nowych kolumn (podkomponent)
+- Info 
+  + statystyczne danych, ustawienie czym jest label, uzupełnianie brakujacych danych
+  + dataset walidacyjny, testowy, uczący (względem jakich parametrów ustalane?)
+  -->

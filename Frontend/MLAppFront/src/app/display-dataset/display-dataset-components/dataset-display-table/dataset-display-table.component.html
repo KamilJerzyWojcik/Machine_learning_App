@@ -1,0 +1,85 @@
+<div class="m-4 border border-primary" *ngIf="!ShowDeleteConfirm && !showCreateColumnForm">
+  <h3>Actions</h3>
+  <button type="button" class="btn btn-danger m-1 dataset-button" (click)="ShowDeleteConfirm=true; Head=SubDataset[0]"
+    data-toggle="modal" data-target="#exampleModalScrollable">
+    Delete column
+  </button>
+  <a class="btn btn-success text-white m-2 pointer" (click)="showCreateColumnForm=true">Create new column</a>
+</div>
+<div *ngIf="showCreateColumnForm" class="m-4 border border-primary p-3">
+  <app-create-column-form [SubdatasetId]="subDatasetId" [Head]="NumericHead" (cancel)="cancelCreation($event)"></app-create-column-form>
+</div>
+
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item" [ngClass]="{'disabled': Page == 1}">
+      <a class="page-link pagination" tabindex="-1" (click)="firts()">First</a>
+    </li>
+    <li class="page-item" [ngClass]="{'disabled': Page == 1}">
+      <a class="page-link pagination" tabindex="-1" (click)="previous()">Previous</a>
+    </li>
+    <li class="page-item" [ngClass]="{'disabled': Page == MaxPage}" (click)="next()">
+      <a class="page-link pagination" tabindex="-1">Next</a>
+    </li>
+    <li class="page-item" [ngClass]="{'disabled': Page == MaxPage}">
+      <a class="page-link pagination" tabindex="-1" (click)="last()">Last</a>
+    </li>
+    <li class="page-item disabled">
+      <a class="page-link" tabindex="-1">{{Page}}/{{MaxPage}}</a>
+    </li>
+  </ul>
+</nav>
+
+<table class="table table-hover table-responsive" *ngIf="SubDataset">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" *ngFor="let head of SubDataset[0]">{{head}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let row of SubDataset; let i=index">
+      <tr *ngIf="i > 0">
+        <td class="text-center">{{i}}</td>
+        <td *ngFor="let data of row; let j=index" class="text-center">
+          {{NumericHead.indexOf(SubDataset[0][j]) !== -1 ? (data | scientificNumber) : data}}
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>
+<ng-container *ngIf="ShowDeleteConfirm">
+  <div class="modal fade" [ngClass]="{'show': ShowDeleteConfirm, 'display': ShowDeleteConfirm}"
+  id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">Column delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Choose column to delete:
+        </p>
+        <div class="input-group mb-3" *ngFor="let column of Head">
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <input type="checkbox" (change)="addToDelete(column)" aria-label="Checkbox for following text input">
+            </div>
+          </div>
+          <input type="text" disabled value="{{column}}" class="form-control" aria-label="Text input with checkbox">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="ShowDeleteConfirm=false; refreshColumn()" class="btn btn-secondary"
+          data-dismiss="modal">Close</button>
+        <button type="button" (click)="keepColumns(); ShowDeleteConfirm=false" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+</ng-container>
+

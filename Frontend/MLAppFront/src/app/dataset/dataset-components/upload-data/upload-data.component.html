@@ -1,0 +1,87 @@
+<div class="row m-4 border border-primary" *ngIf="File !== null">
+    <div class="col-2"></div>
+    <div  class="col-4 m-3">
+        <a *ngIf="File !== null && ShowUploadButton" class="btn btn-success text-white" (click)="onSubmit(); ShowUploadButton=false">Save file</a>
+    </div>
+    <div class="col-4 m-3">
+      <p>Last file uploaded: {{LastFileUploaded ? LastFileUploaded : "None"}}</p>
+    </div>
+    <div class="col-2"></div>
+</div>
+
+<div class="custom-file">
+    <input type="file" accept=".csv" class="custom-file-input" 
+           id="validatedCustomFile" (change)="onFileChange($event)" required>
+    <label class="custom-file-label label-hover" for="validatedCustomFile">{{UploadedFile ? UploadedFile : "Choose file..."}}</label>
+  </div>
+<hr>
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Lp</th>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Upload Date</th>
+        <th scope="col">Size</th>
+        <th scope="col">Last Modified</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dataset of DatasetList; let i=index">
+        <th scope="row">{{i + 1}}</th>
+        <td>{{dataset.id}}</td>
+        <td>
+          <ng-container *ngIf="!isEditableName(dataset.id); else editTextName">
+              {{dataset.name}}
+            </ng-container>
+            <ng-template #editTextName>
+                <input type=text [(ngModel)]="dataset.name" class="form-control">
+          </ng-template>
+        </td>
+        <td>{{dataset.upload_date.toDateString()}}</td>
+        <td>{{dataset.size}} Mb</td>
+        <td>{{dataset.last_modified_date.toDateString()}}</td>
+        <td>
+          <ng-container *ngIf="!isEditableName(dataset.id); else editActions">
+            <a class="btn btn-info text-white m-1 dataset-button" (click)="editDataset(dataset.id)">Edit</a>
+            <button type="button" (click)="ShowDeleteConfirm=true; DatasetToDelete=dataset" 
+                    class="btn btn-danger m-1 dataset-button" data-toggle="modal" data-target="#exampleModal">
+                Delete
+              </button>
+          </ng-container>
+          <ng-template #editActions>
+            <a class="btn btn-warning text-white m-1 dataset-button" (click)="saveEditedDataset(dataset)">Save</a>
+            <a class="btn btn-secondary text-white m-1 dataset-button" (click)="cancelEditDataset()">Cancel</a>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+<div class="modal fade" [ngClass]="{'show': ShowDeleteConfirm, 'display': ShowDeleteConfirm}"
+  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Dataset</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+              Do you want delete dataset:
+          </p> 
+          <p>
+              {{DatasetToDelete ? DatasetToDelete.name: "None" }}
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="ShowDeleteConfirm=false" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="deleteDataset(DatasetToDelete.id); ShowDeleteConfirm=false" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,116 @@
+<div class="row">
+  <div class="col-lg-12 col-sm-12 col-md-12" align="center">
+    <h3>
+      New Column Name:
+    </h3>
+    <h5>
+        <ng-container *ngIf="Operators.indexOf(Operation) !== -1">
+            columnName1_{{Operation}}_columnName2
+          </ng-container>
+          <ng-container *ngIf="SelfOperators.indexOf(Operation) !== -1">
+              {{Operation}}_columnName
+          </ng-container>
+          <ng-container *ngIf="Operation === null && SeletcedColumns.length > 0">
+              copy_columnName
+          </ng-container>
+        </h5>
+  </div>
+  <div class="col-lg-6 col-sm-6 col-md-6" align="center">
+    <h3>Columns {{Head.length > 8 ? " (scroll)" : ""}}</h3>
+    <div class="overflow-auto height-columns-list">
+      <ul class="list-group" *ngIf="Head">
+        <ng-container *ngFor="let column of Head">
+            <li class="list-group-item pointer" (click)="addToSelectedColumn(column)" *ngIf="SeletcedColumns.indexOf(column) === -1">
+                {{column}}
+              </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-lg-3 col-sm-3 col-md-3" align="center">
+    <h3>Operators</h3>
+    <ul class="list-group" *ngIf="Operators">
+      <li class="list-group-item pointer" *ngFor="let operator of Operators" (click)="addOpertor(operator)">
+        {{operator}}
+      </li>
+      <li class="list-group-item pointer" >
+        <a class="btn btn-warning text-white" (click)="generateEvery()">
+          Apply all
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-lg-3 col-sm-3 col-md-3" align="center">
+    <h3>Self Operators</h3>
+    <ul class="list-group" *ngIf="Operators">
+      <li class="list-group-item pointer" *ngFor="let selfOperator of SelfOperators" (click)="addOpertor(selfOperator)">
+        {{selfOperator}}
+      </li>
+      <li class="list-group-item" *ngIf="ShowInputParameter">
+        Parameter:
+        <input type="number" [(ngModel)]="CurrentOperationParameter" class="form-control">
+        <a class="btn btn-success text-white pointer" (click)="addOpertor(CurrentSelfOperatorWithParameter)">Add</a>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<hr />
+<div class="alert alert-success" role="alert" *ngIf="SeletcedColumns.length > 0">
+  <ng-container *ngIf="SeletcedColumns && !Operation">
+    Copy columns.
+  </ng-container>
+  <ng-container *ngIf="SeletcedColumns && Operation">
+    Apply operator to columns.
+  </ng-container>
+</div>
+
+<div *ngIf="Operation !== 'everything combination'" class="overflow-auto height-columns-list">
+    <h3 *ngIf="SeletcedColumns">Selected columns {{SeletcedColumns.length > 8 ? " (scroll)" : ""}}</h3>
+  <ul class="list-group" *ngIf="SeletcedColumns">
+      <li class="list-group-item" *ngIf="Operation">
+          Operator: {{Operation}}
+          <ng-container *ngIf="OperationParameter">
+            , Parameter: {{OperationParameter}}
+          </ng-container>
+          <span class="badge badge-pill badge-danger pointer" (click)="removeOperator()">
+            delete
+          </span>
+        </li>
+    <li class="list-group-item" *ngFor="let column of SeletcedColumns; let i=index">
+      column {{i + 1}}: {{column}}
+      <span class="badge badge-pill badge-danger pointer" (click)="removeSelectedColumn(column)">
+        delete
+      </span>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="Operation === 'everything combination'" >
+    <ul class="list-group">
+        <li class="list-group-item">
+            <h3 class="alert alert-danger" style="color:red;">Generate Everything combinations Columns and Operators</h3>
+        </li>
+    </ul>
+</div>
+
+<ul class="list-group">
+  <li class="list-group-item">
+    <a class="btn btn-info text-white pointer m-2" (click)="cancelCreation()">
+      Cancel
+    </a>
+    <a class="btn btn-warning text-white pointer m-2" (click)="clearSelectedItems()">
+      Clear
+    </a>
+    <a class="btn btn-secondary text-white pointer m-2" (click)="selectAllColumns()"
+      *ngIf="SeletcedColumns.length !== Head.length && (Operation === null || SelfOperators.indexOf(Operation) !== -1)">
+      Select all columns
+    </a>
+    <a class="btn btn-success text-white pointer m-2" (click)="createColumn()" *ngIf="SeletcedColumns.length > 0">
+      Create
+    </a>
+  </li>
+</ul>

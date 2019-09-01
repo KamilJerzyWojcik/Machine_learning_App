@@ -1,0 +1,124 @@
+<div>
+  <h3>Current dataset: {{Dataset ? Dataset.name : 'None'}}</h3>
+</div>
+<div class="input-group mb-3">
+  <select class="custom-select" [(ngModel)]="CurrentDatasetId" (change)="selectDataset($event.target.value)">
+    <option selected>Choose...</option>
+    <option *ngFor="let dataset of DatasetNames" value="{{dataset.id}}">
+      {{dataset.name}}
+    </option>
+  </select>
+</div>
+<div>
+  <table class="table table-hover table-dark">
+    <thead>
+      <tr>
+        <th scope="col">Lp</th>
+        <th scope="col">Name</th>
+        <th scope="col">Created Date</th>
+        <th scope=col>Last Modified</th>
+        <th scope="col">Size</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="Dataset">
+        <th scope="row">#</th>
+        <td>{{Dataset.name}}</td>
+        <td>{{Dataset.upload_date.toDateString()}}</td>
+        <td>{{Dataset.last_modified_date.toDateString()}}</td>
+        <td>{{Dataset.size}} Mb</td>
+        <td>
+          <!-- <a class="btn btn-secondary text-white m-1" (click)="createNewSubDataset(Dataset.id)">Create new sub-dataset</a> -->
+          <button type="button" (click)="ShowCreateEditor=true; NewSubdatasetName = Dataset.name" 
+          class="btn btn-secondary m-1 dataset-button" data-toggle="modal" data-target="#exampleModal">
+    Create
+  </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div>
+  <table class="table table-hover table-dark">
+    <thead>
+      <tr>
+        <th class="text-xl-center font-weight-bold" colspan="6">
+          SUB-DATASETS
+        </th>
+      </tr>
+      <tr>
+        <th scope="col">Lp</th>
+        <th scope="col">Name</th>
+        <th scope="col">Created Date</th>
+        <th scope=col>Last Modified</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let subdataset of SubDatasets; let i=index" [ngClass]="{'selected-subdataset': CurrentSubDatasetId == subdataset.id}">
+        <th scope="row">{{i+1}} {{CurrentSubDatasetId == subdataset.id ? "(last selected)": ""}}</th>
+        <td>{{subdataset.name}}</td>
+        <td>{{subdataset.create_date}}</td>
+        <td>{{subdataset.last_modified_date}}</td>
+        <td>
+          <a class="btn btn-info text-white m-1" (click)="selectSubDataset(subdataset.id)">Select</a>
+          <button type="button" (click)="ShowDeleteConfirm=true; SubDatasetToDelete=subdataset" 
+                  class="btn btn-danger m-1 dataset-button" data-toggle="modal" data-target="#exampleModal">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" [ngClass]="{'show': ShowDeleteConfirm, 'display': ShowDeleteConfirm}"
+  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Sub-Dataset</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+              Do you want delete sub-dataset:
+          </p> 
+          <p>
+              {{SubDatasetToDelete ? SubDatasetToDelete.name: "None" }}
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="ShowDeleteConfirm=false" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="deleteSubDataset(SubDatasetToDelete.id); ShowDeleteConfirm=false" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" [ngClass]="{'show': ShowCreateEditor, 'display': ShowCreateEditor}"
+  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create new Sub-Dataset</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+              Write name for new sub dataset of {{Dataset ? Dataset.name : "None"}}:
+          </p> 
+          <input type=text [(ngModel)]="NewSubdatasetName" class="form-control">          
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="ShowCreateEditor=false" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="createNewSubDataset(); ShowCreateEditor=false" class="btn btn-success">Create</button>
+        </div>
+      </div>
+    </div>
+  </div>
