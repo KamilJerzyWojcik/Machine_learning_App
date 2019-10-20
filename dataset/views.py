@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 def upload_data(request):
     return file_upload_handler.handle(request)
 
-
+@csrf_exempt
 def get_list_dataset(request):
     return get_list_dataset_handler.handle()
 
