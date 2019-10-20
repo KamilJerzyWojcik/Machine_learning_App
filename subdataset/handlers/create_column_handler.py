@@ -4,6 +4,7 @@ import json
 import pandas as pd
 from ..services.data_modification_service import add_new_column
 
+
 def handle(request):
     dataset_request = json.loads(request.body)
     dataset_id = dataset_request["id"]
@@ -13,7 +14,8 @@ def handle(request):
     sub_dataset = SubDataset.objects.filter(pk=dataset_id)
     data = pd.read_csv(sub_dataset[0].url)
     data, name = add_new_column(data, operation, columns, parameter)
-    data.to_csv(sub_dataset[0].url, index=False)
+    if name != '':
+        data.to_csv(sub_dataset[0].url, index=False)
 
     result = {
         "new_column_names": name,

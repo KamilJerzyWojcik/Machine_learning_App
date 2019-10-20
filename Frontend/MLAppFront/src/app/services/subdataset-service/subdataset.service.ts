@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class SubdatasetService {
   private _deleteSubDataSetEndPoint = "subdataset/delete_subdataset";
   private _getSubDataSetByIdEndPoint = "subdataset/get_by_id_subdataset";
   private _getGetSubdatasetRowsByIdEndPoint = "subdataset/get_max_pages_by_id";
-
+  changeVisibleEditor = new Subject<boolean>();
 
   constructor(private _httpClient: HttpClient ) { }
 
@@ -21,9 +22,6 @@ export class SubdatasetService {
   }
 
   CreateSubDataset(dataset_id:number, dataset_name:string) {
-    console.log(dataset_id);
-    console.log(dataset_name);
-
     return this._httpClient.post<any>(environment.api + this._createSubDataSetEndPoint, {dataset_id: dataset_id, dataset_name: dataset_name});
   }
 

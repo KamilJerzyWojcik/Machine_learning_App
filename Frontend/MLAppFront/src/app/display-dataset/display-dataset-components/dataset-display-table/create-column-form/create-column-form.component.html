@@ -10,9 +10,6 @@
           <ng-container *ngIf="SelfOperators.indexOf(Operation) !== -1">
               {{Operation}}_columnName
           </ng-container>
-          <ng-container *ngIf="Operation === null && SeletcedColumns.length > 0">
-              copy_columnName
-          </ng-container>
         </h5>
   </div>
   <div class="col-lg-6 col-sm-6 col-md-6" align="center">
@@ -33,11 +30,6 @@
     <ul class="list-group" *ngIf="Operators">
       <li class="list-group-item pointer" *ngFor="let operator of Operators" (click)="addOpertor(operator)">
         {{operator}}
-      </li>
-      <li class="list-group-item pointer" >
-        <a class="btn btn-warning text-white" (click)="generateEvery()">
-          Apply all
-        </a>
       </li>
     </ul>
   </div>
@@ -61,14 +53,17 @@
 <hr />
 <div class="alert alert-success" role="alert" *ngIf="SeletcedColumns.length > 0">
   <ng-container *ngIf="SeletcedColumns && !Operation">
-    Copy columns.
+    Please select Operator.
   </ng-container>
-  <ng-container *ngIf="SeletcedColumns && Operation">
-    Apply operator to columns.
+  <ng-container *ngIf="this.SeletcedColumns.length < 2 && this.Operators.indexOf(this.Operation) !== -1">
+    Please select columm
+  </ng-container>
+  <ng-container *ngIf="createIsVisible()">
+    Apply {{ Operation }} to columns.
   </ng-container>
 </div>
 
-<div *ngIf="Operation !== 'everything combination'" class="overflow-auto height-columns-list">
+<div class="overflow-auto height-columns-list">
     <h3 *ngIf="SeletcedColumns">Selected columns {{SeletcedColumns.length > 8 ? " (scroll)" : ""}}</h3>
   <ul class="list-group" *ngIf="SeletcedColumns">
       <li class="list-group-item" *ngIf="Operation">
@@ -89,14 +84,6 @@
   </ul>
 </div>
 
-<div *ngIf="Operation === 'everything combination'" >
-    <ul class="list-group">
-        <li class="list-group-item">
-            <h3 class="alert alert-danger" style="color:red;">Generate Everything combinations Columns and Operators</h3>
-        </li>
-    </ul>
-</div>
-
 <ul class="list-group">
   <li class="list-group-item">
     <a class="btn btn-info text-white pointer m-2" (click)="cancelCreation()">
@@ -109,7 +96,7 @@
       *ngIf="SeletcedColumns.length !== Head.length && (Operation === null || SelfOperators.indexOf(Operation) !== -1)">
       Select all columns
     </a>
-    <a class="btn btn-success text-white pointer m-2" (click)="createColumn()" *ngIf="SeletcedColumns.length > 0">
+    <a class="btn btn-success text-white pointer m-2" (click)="createColumn()" *ngIf="createIsVisible()">
       Create
     </a>
   </li>

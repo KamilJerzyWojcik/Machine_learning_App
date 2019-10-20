@@ -65,6 +65,7 @@ export class DatasetDisplayDatasetsComponent implements OnInit {
   selectSubDataset(subdataset_id:number) {
     this.CurrentSubDatasetId = subdataset_id;
     this.SubDatasetIdStorageSet(subdataset_id);
+    this._subdatasetService.changeVisibleEditor.next(true);
     this._router.navigate( [ '/dataset_display/table' ] );
   }
 

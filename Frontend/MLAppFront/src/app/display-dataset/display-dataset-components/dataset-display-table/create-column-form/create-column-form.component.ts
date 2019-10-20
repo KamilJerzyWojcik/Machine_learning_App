@@ -103,28 +103,20 @@ export class CreateColumnFormComponent implements OnInit {
   }
 
   createColumn() {
-    if (this.Operation !== "everything combination") {
-      this._dataModificationService.CreateNewColumn(this.SubdatasetId,
-        this.SeletcedColumns,
-        this.Operation,
-        this.OperationParameter,
-      ).subscribe(data => {
-        this.cancelCreation();
-      })
-    }
-    else {
-      this._dataModificationService.CreateAllCombinations(this.SubdatasetId).subscribe(r => {
-        console.log(r);
-        this.cancelCreation();
-      })
-    }
-  }
-
-  generateEvery() {
-    this.Operation = "everything combination";
-    this._dataModificationService.CreateAllCombinations(this.SubdatasetId).subscribe(x => {
-      console.log(x);
+    this._dataModificationService.CreateNewColumn(this.SubdatasetId,
+      this.SeletcedColumns,
+      this.Operation,
+      this.OperationParameter,
+    ).subscribe(data => {
+      this.cancelCreation();
     })
   }
 
+  createIsVisible() {
+    const result = 
+      (this.SeletcedColumns.length == 2 && this.Operators.indexOf(this.Operation) !== -1) ||
+      (this.SeletcedColumns.length > 0 && this.SelfOperators.indexOf(this.Operation) !== -1);
+
+    return result;
+  }
 }

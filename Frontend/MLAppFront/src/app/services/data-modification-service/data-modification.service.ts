@@ -8,7 +8,6 @@ import { environment } from 'src/environments/environment';
 export class DataModificationService {
   private _deleteColumnsEndPoint = "subdataset/delete_columns";
   private _createColumnsEndPoint = "subdataset/create_column";
-  private _createAllCombinationsEndPoint = "subdataset/create_all_combinations";
 
   constructor(private _httpClient: HttpClient) { }
 
@@ -27,9 +26,5 @@ export class DataModificationService {
       "parameter": OperationParameter
     }
     return this._httpClient.post<any>(environment.api + this._createColumnsEndPoint, data);
-  }
-
-  CreateAllCombinations(SubdatasetId: number) {
-    return this._httpClient.post<any>(environment.api + this._createAllCombinationsEndPoint, {"id": SubdatasetId});
   }
 }
