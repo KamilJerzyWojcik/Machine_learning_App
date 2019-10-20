@@ -108,6 +108,7 @@ export class CreateColumnFormComponent implements OnInit {
       this.Operation,
       this.OperationParameter,
     ).subscribe(data => {
+      console.log(data);
       this.cancelCreation();
     })
   }

@@ -13,14 +13,15 @@ def handle(request):
     parameter = dataset_request["parameter"]
     sub_dataset = SubDataset.objects.filter(pk=dataset_id)
     data = pd.read_csv(sub_dataset[0].url)
-    data, name = add_new_column(data, operation, columns, parameter)
+    data, name, errors = add_new_column(data, operation, columns, parameter)
     if name != '':
         data.to_csv(sub_dataset[0].url, index=False)
 
     result = {
         "new_column_names": name,
         "columns": columns,
-        "apply_operation": operation
+        "apply_operation": operation,
+        "errors": errors
     }
     return JsonResponse(result, safe=False, content_type="application/json")
 

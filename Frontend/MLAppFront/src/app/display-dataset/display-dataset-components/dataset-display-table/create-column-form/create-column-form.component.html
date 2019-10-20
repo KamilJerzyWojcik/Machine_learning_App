@@ -89,7 +89,10 @@
     <a class="btn btn-info text-white pointer m-2" (click)="cancelCreation()">
       Cancel
     </a>
-    <a class="btn btn-warning text-white pointer m-2" (click)="clearSelectedItems()">
+    <a 
+      class="btn btn-warning text-white pointer m-2" 
+      (click)="clearSelectedItems()"
+      *ngIf="SeletcedColumns.length > 0 || Operation !== null">
       Clear
     </a>
     <a class="btn btn-secondary text-white pointer m-2" (click)="selectAllColumns()"
