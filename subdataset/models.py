@@ -8,18 +8,5 @@ class SubDataset(models.Model):
     url = models.CharField(max_length=255)
     create_date = models.DateField(default=timezone.now)
     last_modified_date = models.DateField(default=timezone.now)
-    mongo_collection_name = models.CharField(max_length=255)
+    label = models.CharField(max_length=255, default="")
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE, null=True)
-
-
-class ColumnDataset(models.Model):
-    name = models.CharField(max_length=255)
-    create_date = models.DateField(default=timezone.now)
-    subdataset = models.ForeignKey(SubDataset, on_delete=models.CASCADE, null=True)
-
-
-class Operations(models.Model):
-    name = models.CharField(max_length=255)
-    columnDataset = models.ForeignKey(ColumnDataset, on_delete=models.CASCADE, null=True)
-    create_date = models.DateField(default=timezone.now)
-

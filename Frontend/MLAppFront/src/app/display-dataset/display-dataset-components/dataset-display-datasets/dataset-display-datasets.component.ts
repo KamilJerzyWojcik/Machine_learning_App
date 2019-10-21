@@ -12,7 +12,7 @@ import { SubDataSet } from '../../models/subdataset';
 })
 export class DatasetDisplayDatasetsComponent implements OnInit {
 
-  public CurrentDatasetId: any;
+  public CurrentDatasetId: number;
   public CurrentSubDatasetId: number;
   public DatasetNames: any;
   public Dataset: DataSet;
@@ -35,20 +35,31 @@ export class DatasetDisplayDatasetsComponent implements OnInit {
 
   private getDataset() {
     let datasetId = this.DatasetIdStorageGet();
-    if(!Number.isNaN(datasetId)) {
+    if(datasetId !== null && datasetId !== undefined) {
       this.CurrentDatasetId = datasetId;
       this.selectDataset();
+    } else {
+      this.CurrentDatasetId = 0;
     }
   }
 
   selectDataset() {
-    this.SubDatasetIdStorageClear();
-    this.DatasetIdStorageClear();
-    this._datasetService.GetDatasetById(this.CurrentDatasetId).subscribe(dataset => {
-      this.Dataset = new DataSet(dataset);
-      this.DatasetIdStorageSet(this.CurrentDatasetId);
-      this.getListSubDatasets(this.CurrentDatasetId)
-    });
+    if(this.CurrentDatasetId !== null && this.CurrentDatasetId !== undefined) {
+      this.SubDatasetIdStorageClear();
+      this.DatasetIdStorageClear();
+      this._datasetService.GetDatasetById(this.CurrentDatasetId).subscribe(dataset => {
+        if(dataset !== null && dataset !== undefined) {
+          this.Dataset = new DataSet(dataset);
+          this.DatasetIdStorageSet(this.CurrentDatasetId);
+          this.getListSubDatasets(this.CurrentDatasetId)
+        } else {
+          this.Dataset = null;
+          this.DatasetIdStorageSet(null);
+          this.getListSubDatasets(null)
+        }
+      });
+    }
+    
   }
 
   createNewSubDataset() {

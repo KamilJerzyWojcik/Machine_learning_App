@@ -2,8 +2,11 @@
   <h3>Current dataset: {{Dataset ? Dataset.name : 'None'}}</h3>
 </div>
 <div class="input-group mb-3">
-  <select class="custom-select" [(ngModel)]="CurrentDatasetId" (change)="selectDataset($event.target.value)">
-    <option selected>Choose...</option>
+  <select
+    class="custom-select"
+    [(ngModel)]="CurrentDatasetId"
+    (change)="selectDataset($event.target.value)">
+    <option value="0" selected>Choose...</option>
     <option *ngFor="let dataset of DatasetNames" value="{{dataset.id}}">
       {{dataset.name}}
     </option>

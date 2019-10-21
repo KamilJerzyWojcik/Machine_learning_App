@@ -67,6 +67,13 @@ export class CreateColumnFormComponent implements OnInit {
       return;
     }
 
+    if(operator !== 'pow') {
+      this.OperationParameter = null;
+      this.Operation = operator;
+      this.ShowInputParameter = false;
+      return;
+    }
+
     if (operator === "pow" && this.CurrentOperationParameter !== null) {
       this.Operation = this.CurrentSelfOperatorWithParameter;
       this.OperationParameter = this.CurrentOperationParameter;
@@ -76,10 +83,6 @@ export class CreateColumnFormComponent implements OnInit {
       this.ShowInputParameter = false;
       return;
     }
-
-    this.OperationParameter = null;
-    this.Operation = operator;
-
   }
 
   selectAllColumns() {
