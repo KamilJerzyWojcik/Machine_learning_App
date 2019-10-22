@@ -24,4 +24,5 @@ urlpatterns = [
     path('dataset/', include('dataset.urls', namespace='dataset')),
     path('subdataset/', include('subdataset.urls', namespace='subdataset')),
     path('admin/', admin.site.urls),
+    path('statistic_subdataset/', include('statistic_subdataset.urls', 'statistic_subdataset'))
 ]

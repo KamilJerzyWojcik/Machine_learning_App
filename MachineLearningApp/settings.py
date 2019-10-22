@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'dataset.apps.DatasetConfig',
-    'subdataset.apps.SubdatasetConfig'
+    'subdataset.apps.SubdatasetConfig',
+    'statistic_subdataset.apps.StatisticSubdatasetConfig'
 ]
 
 MIDDLEWARE = [
