@@ -1,12 +1,12 @@
 
 class SubdatasetRouter:
     """
-    A router to control all database operations on models in the
+    A router to control all database operations on models_class in the
     subdataset application.
     """
     def db_for_read(self, model, **hints):
         """
-        Attempts to read subdataset models go to db.subdata.
+        Attempts to read subdataset models_class go to db.subdata.
         """
         if model._meta.app_label == 'subdata':
             return 'subdata_db'
@@ -14,7 +14,7 @@ class SubdatasetRouter:
 
     def db_for_write(self, model, **hints):
         """
-        Attempts to write subdataset models go to db.subdata.
+        Attempts to write subdataset models_class go to db.subdata.
         """
         if model._meta.app_label == 'subdata':
             return 'subdata_db'

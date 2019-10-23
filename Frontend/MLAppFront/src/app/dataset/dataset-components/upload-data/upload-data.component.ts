@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatasetService } from 'src/app/services/dataset-service/dataset.service';
 import { DataSet } from '../../models/dataset';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-upload-data',
   templateUrl: './upload-data.component.html',
   styleUrls: ['./upload-data.component.css']
 })
-export class UploadDataComponent implements OnInit {
+export class UploadDataComponent implements OnInit, OnDestroy {
 
   public UploadedFile: string;
   public LastFileUploaded: string;
@@ -17,6 +18,7 @@ export class UploadDataComponent implements OnInit {
   public ShowDeleteConfirm: boolean = false;
   public DatasetToDelete: DataSet;
   public ShowUploadButton: boolean = false;
+  private subscription: Subscription;
 
   constructor(private _datasetService: DatasetService) { }
 
@@ -25,7 +27,7 @@ export class UploadDataComponent implements OnInit {
   }
 
   getDatasetList() {
-    this._datasetService.GetListDataset().subscribe(data => {
+    this.subscription = this._datasetService.GetListDataset().subscribe(data => {
       this.DatasetList = [];
       data.forEach(dataset => this.DatasetList.push(new DataSet(dataset)) );
       this.DatasetList.sort((a, b) => b.last_modified_date.getTime() - a.last_modified_date.getTime());
@@ -80,6 +82,10 @@ export class UploadDataComponent implements OnInit {
       })
     }
     this.CurrentEditDataset = null;
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }
