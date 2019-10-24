@@ -12,8 +12,9 @@ import { Subscription } from 'rxjs';
 export class DatasetDisplayStatisticsComponent implements OnInit, OnDestroy {
 
   private subDatasetId: number;
-  private statistics: Statisctics[];
-  private label: string;
+  public statistics: Statisctics[];
+  public head: string[] = [];
+  public label: string;
   private subscription: Subscription;
 
   constructor(private _router: Router, private _statisticsSubdatasetsService: StatisticsSubdatasetsService) { }
@@ -36,13 +37,27 @@ export class DatasetDisplayStatisticsComponent implements OnInit, OnDestroy {
       .getStatisticsById(this.subDatasetId)
       .subscribe((result) => {
         this.statistics = JSON.parse(result['data']) as Statisctics[];
+
+        if (this.statistics.length !== 0) {
+          for (let i of this.statistics[0].items) {
+            this.head.push(i.name);
+          }
+        }
         this.label = result['label']
-        console.log(this.statistics);
       });
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  setAsLabel(name: string) {
+    this._statisticsSubdatasetsService.setLabel(this.subDatasetId, name).subscribe(() => {
+      this.statistics = null;
+      this.label = "";
+      this.head = [];
+      this.getStatistics();
+    });
   }
 
 }

@@ -8,11 +8,16 @@ import { environment } from 'src/environments/environment';
 export class StatisticsSubdatasetsService {
 
   private _statisticsSubdatasetByIdEndPoint = "statistic_subdataset/get_statistics_subdataset_by_id";
+  private _statisticsSetLabelEndPoint = "statistic_subdataset/set_label_subdataset";
 
   constructor(private _httpClient: HttpClient ) { }
 
   getStatisticsById(id: number) {
     return this._httpClient.post<any>(environment.api + this._statisticsSubdatasetByIdEndPoint, id);
+  }
+
+  setLabel(id: number, name: string) {
+    return this._httpClient.post<any>(environment.api + this._statisticsSetLabelEndPoint, {id, name});
   }
 
 }

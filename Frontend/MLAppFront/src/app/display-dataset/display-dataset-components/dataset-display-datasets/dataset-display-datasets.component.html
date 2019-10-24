@@ -32,7 +32,6 @@
         <td>{{Dataset.last_modified_date.toDateString()}}</td>
         <td>{{Dataset.size}} Mb</td>
         <td>
-          <!-- <a class="btn btn-secondary text-white m-1" (click)="createNewSubDataset(Dataset.id)">Create new sub-dataset</a> -->
           <button type="button" (click)="ShowCreateEditor=true; NewSubdatasetName = Dataset.name" 
           class="btn btn-secondary m-1 dataset-button" data-toggle="modal" data-target="#exampleModal">
     Create

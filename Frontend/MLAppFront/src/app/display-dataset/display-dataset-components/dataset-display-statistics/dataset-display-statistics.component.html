@@ -4,3 +4,33 @@
       + statystyczne danych, ustawienie czym jest label, uzupełnianie brakujacych danych
       + dataset walidacyjny, testowy, uczący (względem jakich parametrów ustalane?)
 </p>
+<h3>Label: {{label}}</h3>
+<hr>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Column</th>
+      <th 
+        scope="col" 
+        *ngFor="let h of head"       
+        >{{h}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let i of statistics">
+      <th
+        scope="row"
+        [ngClass]="{'labelcolumn': i.name === label}">
+        {{i.name}}
+        <br>
+        <button
+          *ngIf="i.name !== label"
+          class="badge badge-pill badge-success pointer"
+          (click)="setAsLabel(i.name)">
+            Set
+        </button>
+      </th>
+      <td *ngFor="let s of i.items">{{s.value.toPrecision(4)}}</td>
+    </tr>
+  </tbody>
+</table>

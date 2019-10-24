@@ -4,7 +4,6 @@ from statistic_subdataset.models_class.statistics import Statistics
 from statistic_subdataset.models_class.statistics_item import StatisticsItem
 from subdataset.models import SubDataset
 import pandas as pd
-from django.forms.models import model_to_dict
 
 
 def handle(request):
