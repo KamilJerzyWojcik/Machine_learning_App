@@ -20,7 +20,7 @@ def handle(request):
         pandas_profiling.ProfileReport(dataframe).to_file(output_file=f"./templates/reports/{raport_name}")
         sub_dataset.save()
     except:
-        return JsonResponse({"error": "500"}, safe=False, content_type="application/json")
+        return JsonResponse({"error": ""}, safe=False, content_type="application/json")
 
     if last_report is not "":
         os.remove(f"./templates/reports/{last_report}")

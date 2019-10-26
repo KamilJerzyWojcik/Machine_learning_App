@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-dataset-display-chart',
-  templateUrl: './dataset-display-chart.component.html',
-  styleUrls: ['./dataset-display-chart.component.css']
+  selector: 'app-dataset-modification',
+  templateUrl: './dataset-modification.component.html',
+  styleUrls: ['./dataset-modification.component.css']
 })
-export class DatasetDisplayChartComponent implements OnInit {
+export class DatasetModificationComponent implements OnInit {
 
   private subDatasetId;
 

@@ -107,7 +107,6 @@ export class DatasetDisplayStatisticsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    this.infoSubscription.unsubscribe();
   }
 }
 

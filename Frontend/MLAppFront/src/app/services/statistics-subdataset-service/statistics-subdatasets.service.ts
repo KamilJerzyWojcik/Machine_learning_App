@@ -9,7 +9,7 @@ export class StatisticsSubdatasetsService {
 
   private _statisticsDescriptionSubdatasetByIdEndPoint = "statistic_subdataset/get_description_subdataset_by_id";
   private _statisticsSetLabelEndPoint = "statistic_subdataset/set_label_subdataset";
-  private _statisticsInfoSubdatasetByIdEndPoint = "statistic_subdataset/get_info_subdataset_by_id";
+  private _statisticsInfoSubdatasetByIdEndPoint = "statistic_subdataset/create_report_subdataset_by_id";
 
   constructor(private _httpClient: HttpClient ) { }
 
