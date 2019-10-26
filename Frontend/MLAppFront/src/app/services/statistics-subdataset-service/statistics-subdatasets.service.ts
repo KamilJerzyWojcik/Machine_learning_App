@@ -7,17 +7,22 @@ import { environment } from 'src/environments/environment';
 })
 export class StatisticsSubdatasetsService {
 
-  private _statisticsSubdatasetByIdEndPoint = "statistic_subdataset/get_description_subdataset_by_id";
+  private _statisticsDescriptionSubdatasetByIdEndPoint = "statistic_subdataset/get_description_subdataset_by_id";
   private _statisticsSetLabelEndPoint = "statistic_subdataset/set_label_subdataset";
+  private _statisticsInfoSubdatasetByIdEndPoint = "statistic_subdataset/get_info_subdataset_by_id";
 
   constructor(private _httpClient: HttpClient ) { }
 
-  getStatisticsById(id: number) {
-    return this._httpClient.post<any>(environment.api + this._statisticsSubdatasetByIdEndPoint, id);
+  getStatisticsDescriptionById(id: number) {
+    return this._httpClient.post<any>(environment.api + this._statisticsDescriptionSubdatasetByIdEndPoint, id);
   }
 
   setLabel(id: number, name: string) {
     return this._httpClient.post<any>(environment.api + this._statisticsSetLabelEndPoint, {id, name});
+  }
+
+  getgetStatisticsInfoById(id: number) {
+    return this._httpClient.post<any>(environment.api + this._statisticsInfoSubdatasetByIdEndPoint, id);
   }
 
 }

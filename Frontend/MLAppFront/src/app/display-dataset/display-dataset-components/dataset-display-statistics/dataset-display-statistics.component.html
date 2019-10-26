@@ -4,6 +4,20 @@
   + statystyczne danych, ustawienie czym jest label, uzupełnianie brakujacych danych
   + dataset walidacyjny, testowy, uczący (względem jakich parametrów ustalane?)
 </p>
+<div>
+  <h3>Report: </h3>
+  <button class="btn btn-secondary" (click)="getReportStatistics()" [disabled]="spinnerVisible">Generate new
+    report</button>|
+  <button class="btn btn-info" (click)="openReportStatistics()" *ngIf="!spinnerVisible && reportUrl">Open
+    raport</button>
+  <div class="lds-ring" *ngIf="spinnerVisible">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+<hr>
 <h3>Label: {{label}}</h3>
 <button class="btn btn-warning" (click)="onEdit()" *ngIf="!editMode">Edit</button>
 <ng-container *ngIf="editMode">
@@ -12,26 +26,19 @@
 </ng-container>
 <hr>
 Number columns: {{visibleColumnNumber}}/{{maxColumnNumber}}
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Column</th>
-      <th scope="col" *ngFor="let h of head">{{h}}</th>
-    </tr>
-  </thead>
-  <tbody>
-    <ng-container *ngFor="let i of statistics">
-      <tr *ngIf="i.isVisible">
-        <th scope="row" [ngClass]="{'labelcolumn': i.name === label}">
-          {{i.name}}
-          <br>
-          <button *ngIf="i.name !== label && editMode" class="badge badge-pill badge-success pointer"
-            (click)="setAsLabel(i.name)">
-            Set
-          </button>
-        </th>
-        <td *ngFor="let s of i.items">{{s.value.toPrecision(4)}}</td>
-      </tr>
-    </ng-container>
-  </tbody>
-</table>
+
+<ul class="list-group">
+  <ng-container *ngFor="let i of descriptionStatistics">
+    <li class="list-group-item" [ngClass]="{'labelcolumn': i.name === label}">
+        {{i.name}}
+        <br>
+        <button *ngIf="i.name !== label && editMode" class="badge badge-pill badge-success pointer"
+          (click)="setAsLabel(i.name)">
+          Set
+        </button>
+    </li>
+  </ng-container>
+</ul>
+
+
+<hr>

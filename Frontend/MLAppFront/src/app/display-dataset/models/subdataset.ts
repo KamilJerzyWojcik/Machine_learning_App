@@ -1,12 +1,13 @@
 export class SubDataSet{
-    id: number
-    name: string
-    size: number
-    upload_date: Date
-    last_modified_date: Date
+    id: number;
+    name: string;
+    size: number;
+    upload_date: Date;
+    last_modified_date: Date;
     create_date: Date;
-    url: string
-    dataset_id: number
+    url: string;
+    dataset_id: number;
+    raport_url: string;
 
     constructor(subdataset){
         this.id = subdataset.id;
@@ -17,6 +18,7 @@ export class SubDataSet{
         this.url = subdataset.url;
         this.dataset_id = subdataset.id;
         this.create_date = subdataset.create_date;
+        this.raport_url = subdataset.raport_url
     }
 
 }

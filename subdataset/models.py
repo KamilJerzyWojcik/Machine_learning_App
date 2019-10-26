@@ -10,3 +10,5 @@ class SubDataset(models.Model):
     last_modified_date = models.DateField(default=timezone.now)
     label = models.CharField(max_length=255, default="")
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE, null=True)
+    raport_url = models.CharField(max_length=255, default="")
+

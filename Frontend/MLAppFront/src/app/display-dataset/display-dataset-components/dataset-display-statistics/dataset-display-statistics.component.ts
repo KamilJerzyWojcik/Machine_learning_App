@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { StatisticsSubdatasetsService } from 'src/app/services/statistics-subdataset-service/statistics-subdatasets.service';
-import { Statisctics } from './models/statisctics';
+import { DescriptionStatisctics } from './models/description-statisctics';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,14 +12,18 @@ import { Subscription } from 'rxjs';
 export class DatasetDisplayStatisticsComponent implements OnInit, OnDestroy {
 
   private subDatasetId: number;
-  public statistics: Statisctics[];
+  public descriptionStatistics: DescriptionStatisctics[];
   public head: string[] = [];
   public label: string;
   public oldLabel: string;
   private subscription: Subscription;
+  private infoSubscription: Subscription;
   public editMode = false;
   public visibleColumnNumber: number = 0;
   public maxColumnNumber: number = 0;
+  public spinnerVisible: boolean = false;
+  public report: string;
+  public reportUrl: string;
 
   constructor(private _router: Router, private _statisticsSubdatasetsService: StatisticsSubdatasetsService) { }
 
@@ -29,39 +33,56 @@ export class DatasetDisplayStatisticsComponent implements OnInit, OnDestroy {
       this._router.navigate(['/dataset_display/datasets']);
     }
     this.subDatasetId = Number.parseInt(id);
-    this.getStatistics();
+    this.getDescriptionStatistics();
   }
 
   private SubDatasetIdStorageGet() {
     return JSON.parse(localStorage.getItem('subdataset_id'));
   }
 
-  private getStatistics() {
+  private getDescriptionStatistics() {
     this.subscription = this._statisticsSubdatasetsService
-      .getStatisticsById(this.subDatasetId)
+      .getStatisticsDescriptionById(this.subDatasetId)
       .subscribe((result) => {
-        this.statistics = JSON.parse(result['data']) as Statisctics[];
-        this.label = result['label']
+        this.descriptionStatistics = JSON.parse(result['data']) as DescriptionStatisctics[];
+        this.label = result['label'];
+        this.reportUrl = result['raport_url'];
 
-        if (this.statistics.length !== 0) {
-          let index = 0
+        if (this.descriptionStatistics.length !== 0) {
+          let index = 0;
 
-          for (let s of this.statistics) {
+          for (let s of this.descriptionStatistics) {
             index++;
             s.isVisible = false;
-            if (index < 10 || s.name === this.label) {
-              s.isVisible = true;
-              this.visibleColumnNumber++;
-            }
+            s.isVisible = true;
+            this.visibleColumnNumber++;
           }
 
           this.maxColumnNumber = index;
 
-          for (let i of this.statistics[0].items) {
+          for (let i of this.descriptionStatistics[0].items) {
             this.head.push(i.name);
           }
         }
       });
+  }
+
+  public getReportStatistics() {
+    this.spinnerVisible = true;
+    this.infoSubscription = this._statisticsSubdatasetsService
+      .getgetStatisticsInfoById(this.subDatasetId)
+      .subscribe((data) => {
+        this.spinnerVisible = false;
+        this.reportUrl = data.urlReport;
+      },
+        (error) => {
+          console.log(error);
+          this.spinnerVisible = false;
+        });
+  }
+
+  public openReportStatistics() {
+    window.open(`http://127.0.0.1:8000/statistic_subdataset/report/${this.reportUrl}`, "_blank");
   }
 
   setAsLabel(name: string) {
@@ -86,6 +107,7 @@ export class DatasetDisplayStatisticsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.infoSubscription.unsubscribe();
   }
 }
 

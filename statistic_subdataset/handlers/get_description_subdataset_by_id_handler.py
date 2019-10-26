@@ -10,6 +10,7 @@ def handle(request):
     dataset_id = json.loads(request.body)
     sub_dataset = SubDataset.objects.filter(pk=dataset_id)
     label = sub_dataset[0].label
+    raport_url = sub_dataset[0].raport_url
     dataframe = pd.read_csv(sub_dataset[0].url)
     data = dataframe.describe().to_dict()
     keys = dataframe.columns
@@ -25,7 +26,7 @@ def handle(request):
                 )
                 stat.items.append(item)
             statistics_data.append(stat)
-    return JsonResponse({"data": json.dumps(statistics_data, default=serialize), "label": label}, safe=False, content_type="application/json")
+    return JsonResponse({"data": json.dumps(statistics_data, default=serialize), "label": label, "raport_url": raport_url}, safe=False, content_type="application/json")
 
 
 def serialize(obj):
