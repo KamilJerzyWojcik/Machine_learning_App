@@ -1,36 +1,37 @@
 <p>
   dataset-display-statistics works!
-  - Info 
-      + statystyczne danych, ustawienie czym jest label, uzupełnianie brakujacych danych
-      + dataset walidacyjny, testowy, uczący (względem jakich parametrów ustalane?)
+  - Info
+  + statystyczne danych, ustawienie czym jest label, uzupełnianie brakujacych danych
+  + dataset walidacyjny, testowy, uczący (względem jakich parametrów ustalane?)
 </p>
 <h3>Label: {{label}}</h3>
+<button class="btn btn-warning" (click)="onEdit()" *ngIf="!editMode">Edit</button>
+<ng-container *ngIf="editMode">
+  <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>|
+  <button class="btn btn-success" (click)="onSave()" [disabled]="label===oldLabel">Save</button>
+</ng-container>
 <hr>
+Number columns: {{visibleColumnNumber}}/{{maxColumnNumber}}
 <table class="table">
   <thead>
     <tr>
       <th scope="col">Column</th>
-      <th 
-        scope="col" 
-        *ngFor="let h of head"       
-        >{{h}}</th>
+      <th scope="col" *ngFor="let h of head">{{h}}</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let i of statistics">
-      <th
-        scope="row"
-        [ngClass]="{'labelcolumn': i.name === label}">
-        {{i.name}}
-        <br>
-        <button
-          *ngIf="i.name !== label"
-          class="badge badge-pill badge-success pointer"
-          (click)="setAsLabel(i.name)">
+    <ng-container *ngFor="let i of statistics">
+      <tr *ngIf="i.isVisible">
+        <th scope="row" [ngClass]="{'labelcolumn': i.name === label}">
+          {{i.name}}
+          <br>
+          <button *ngIf="i.name !== label && editMode" class="badge badge-pill badge-success pointer"
+            (click)="setAsLabel(i.name)">
             Set
-        </button>
-      </th>
-      <td *ngFor="let s of i.items">{{s.value.toPrecision(4)}}</td>
-    </tr>
+          </button>
+        </th>
+        <td *ngFor="let s of i.items">{{s.value.toPrecision(4)}}</td>
+      </tr>
+    </ng-container>
   </tbody>
 </table>

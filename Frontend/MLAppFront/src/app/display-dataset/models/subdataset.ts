@@ -4,6 +4,7 @@ export class SubDataSet{
     size: number
     upload_date: Date
     last_modified_date: Date
+    create_date: Date;
     url: string
     dataset_id: number
 
@@ -15,6 +16,7 @@ export class SubDataSet{
         this.last_modified_date = new Date(subdataset.last_modified_date);
         this.url = subdataset.url;
         this.dataset_id = subdataset.id;
+        this.create_date = subdataset.create_date;
     }
 
 }

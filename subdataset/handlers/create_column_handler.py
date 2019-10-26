@@ -3,6 +3,7 @@ from django.http import JsonResponse
 import json
 import pandas as pd
 from ..services.data_modification_service import add_new_column
+from django.utils import timezone
 
 
 def handle(request):
@@ -11,11 +12,13 @@ def handle(request):
     columns = dataset_request["columns"]
     operation = dataset_request["operation"]
     parameter = dataset_request["parameter"]
-    sub_dataset = SubDataset.objects.filter(pk=dataset_id)
-    data = pd.read_csv(sub_dataset[0].url)
+    sub_dataset = list(SubDataset.objects.filter(pk=dataset_id))[0]
+    data = pd.read_csv(sub_dataset.url)
     data, name, errors = add_new_column(data, operation, columns, parameter)
     if name != '':
-        data.to_csv(sub_dataset[0].url, index=False)
+        data.to_csv(sub_dataset.url, index=False)
+        sub_dataset.last_modified_date = timezone.now()
+        sub_dataset.save()
 
     result = {
         "new_column_names": name,
