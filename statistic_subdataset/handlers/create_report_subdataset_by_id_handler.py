@@ -13,7 +13,7 @@ def handle(request):
     last_report = sub_dataset.raport_url
 
     dataframe = pd.read_csv(sub_dataset.url)
-    raport_name = f'report_{sub_dataset.id}_{time.time()}.html'
+    raport_name = f'report_{sub_dataset.name}_{sub_dataset.id}_{time.time()}.html'
     sub_dataset.raport_url = raport_name
 
     try:

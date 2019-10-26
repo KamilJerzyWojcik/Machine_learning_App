@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DatasetDisplayComponent } from './display-dataset-components/dataset-display/dataset-display.component';
-import { DatasetModificationComponent } from './display-dataset-components/dataset-display-chart/dataset-modification.component';
+import { DatasetModificationComponent } from './display-dataset-components/dataset-modification/dataset-modification.component';
 import { DatasetDisplayTableComponent } from './display-dataset-components/dataset-display-table/dataset-display-table.component';
 import { DisplayDatasetRoutingModule } from './display-dataset-routing.module';
 import { DatasetDisplayDatasetsComponent } from './display-dataset-components/dataset-display-datasets/dataset-display-datasets.component';
