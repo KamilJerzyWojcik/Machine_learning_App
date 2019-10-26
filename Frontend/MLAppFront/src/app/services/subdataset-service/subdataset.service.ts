@@ -14,6 +14,8 @@ export class SubdatasetService {
   private _getSubDataSetByIdEndPoint = "subdataset/get_by_id_subdataset";
   private _getGetSubdatasetRowsByIdEndPoint = "subdataset/get_max_pages_by_id";
   changeVisibleEditor = new Subject<boolean>();
+  currentSubdatasetName = new Subject<string>();
+
 
   constructor(private _httpClient: HttpClient ) { }
 

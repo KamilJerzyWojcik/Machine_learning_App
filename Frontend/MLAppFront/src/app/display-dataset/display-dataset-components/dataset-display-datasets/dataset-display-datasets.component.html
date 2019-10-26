@@ -64,7 +64,7 @@
         <td>{{subdataset.create_date}}</td>
         <td>{{subdataset.last_modified_date}}</td>
         <td>
-          <a class="btn btn-info text-white m-1" (click)="selectSubDataset(subdataset.id)">Select</a>
+          <a class="btn btn-info text-white m-1" (click)="selectSubDataset(subdataset.id, i)">Select</a>
           <button type="button" (click)="ShowDeleteConfirm=true; SubDatasetToDelete=subdataset" 
                   class="btn btn-danger m-1 dataset-button" data-toggle="modal" data-target="#exampleModal">
             Delete

@@ -12,6 +12,8 @@ export class DatasetDisplayComponent implements OnInit, OnDestroy {
 
   isVisible: boolean = false;
   subscription: Subscription;
+  subscriptionName: Subscription;
+  currentSubdatasetName: string;
 
   constructor(private router: Router, private _subdatasetService: SubdatasetService) { }
 
@@ -20,6 +22,10 @@ export class DatasetDisplayComponent implements OnInit, OnDestroy {
     this.subscription = this._subdatasetService.changeVisibleEditor.subscribe((v) => {
       this.isVisible = v;
     })
+
+    this.subscriptionName = this._subdatasetService.currentSubdatasetName.subscribe((name) => {
+      this.currentSubdatasetName = name;
+    });
   }
 
   onManageDataset() {

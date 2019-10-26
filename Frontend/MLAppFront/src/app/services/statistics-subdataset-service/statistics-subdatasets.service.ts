@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class StatisticsSubdatasetsService {
 
-  private _statisticsSubdatasetByIdEndPoint = "statistic_subdataset/get_statistics_subdataset_by_id";
+  private _statisticsSubdatasetByIdEndPoint = "statistic_subdataset/get_description_subdataset_by_id";
   private _statisticsSetLabelEndPoint = "statistic_subdataset/set_label_subdataset";
 
   constructor(private _httpClient: HttpClient ) { }

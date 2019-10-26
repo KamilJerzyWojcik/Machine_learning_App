@@ -75,10 +75,11 @@ export class DatasetDisplayDatasetsComponent implements OnInit, OnDestroy {
     this._subdatasetService.GetSubDatasetList(dataset_id).subscribe(subs => this.SubDatasets = subs);
   }
 
-  selectSubDataset(subdataset_id:number) {
+  selectSubDataset(subdataset_id:number, index: number) {
     this.CurrentSubDatasetId = subdataset_id;
     this.SubDatasetIdStorageSet(subdataset_id);
     this._subdatasetService.changeVisibleEditor.next(true);
+    this._subdatasetService.currentSubdatasetName.next(this.SubDatasets[index].name);
     this._router.navigate( [ '/dataset_display/table' ] );
   }
 
