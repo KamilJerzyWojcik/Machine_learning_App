@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router } from '@angular/router';
 import { StatisticsSubdatasetsService } from 'src/app/services/statistics-subdataset-service/statistics-subdatasets.service';
 import { DescriptionStatisctics } from './models/description-statisctics';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { DescriptionStatiscticsItem } from './models/description-statisctics-item';
 
 @Component({
   selector: 'app-dataset-display-statistics',
@@ -19,10 +21,8 @@ export class DatasetDisplayStatisticsComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   private infoSubscription: Subscription;
   public editMode = false;
-  public visibleColumnNumber: number = 0;
-  public maxColumnNumber: number = 0;
+  public maxColumnNumber: number;
   public spinnerVisible: boolean = false;
-  public report: string;
   public reportUrl: string;
 
   constructor(private _router: Router, private _statisticsSubdatasetsService: StatisticsSubdatasetsService) { }
@@ -44,30 +44,14 @@ export class DatasetDisplayStatisticsComponent implements OnInit, OnDestroy {
     this.subscription = this._statisticsSubdatasetsService
       .getStatisticsDescriptionById(this.subDatasetId)
       .subscribe((result) => {
-        this.descriptionStatistics = JSON.parse(result['data']) as DescriptionStatisctics[];
+        this.descriptionStatistics = JSON.parse(result['data']) as DescriptionStatiscticsItem[];
         this.label = result['label'];
         this.reportUrl = result['raport_url'];
-
-        if (this.descriptionStatistics.length !== 0) {
-          let index = 0;
-
-          for (let s of this.descriptionStatistics) {
-            index++;
-            s.isVisible = false;
-            s.isVisible = true;
-            this.visibleColumnNumber++;
-          }
-
-          this.maxColumnNumber = index;
-
-          for (let i of this.descriptionStatistics[0].items) {
-            this.head.push(i.name);
-          }
-        }
+        this.maxColumnNumber = this.descriptionStatistics.length;
       });
   }
 
-  public getReportStatistics() {
+  public createReportStatistics() {
     this.spinnerVisible = true;
     this.infoSubscription = this._statisticsSubdatasetsService
       .getgetStatisticsInfoById(this.subDatasetId)
@@ -80,9 +64,8 @@ export class DatasetDisplayStatisticsComponent implements OnInit, OnDestroy {
           this.spinnerVisible = false;
         });
   }
-
   public openReportStatistics() {
-    window.open(`http://127.0.0.1:8000/statistic_subdataset/report/${this.reportUrl}`, "_blank");
+    window.open(`${environment.api}statistic_subdataset/report/${this.reportUrl}`, "_blank");
   }
 
   setAsLabel(name: string) {
@@ -102,11 +85,18 @@ export class DatasetDisplayStatisticsComponent implements OnInit, OnDestroy {
 
   onSave() {
     this.editMode = false;
-    this._statisticsSubdatasetsService.setLabel(this.subDatasetId, this.label).subscribe();
+    this._statisticsSubdatasetsService.setLabel(this.subDatasetId, this.label).subscribe(
+      () => {
+        this.getDescriptionStatistics();
+      }
+    );
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    if(this.infoSubscription){
+      this.infoSubscription.unsubscribe();
+    }
   }
 }
 

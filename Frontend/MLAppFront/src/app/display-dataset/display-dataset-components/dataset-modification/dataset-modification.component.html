@@ -1,7 +1,30 @@
 <p>
-    dataset-modification works!
-    + uzupełnianie brakujacych danych
-    + dataset walidacyjny, 
-    + testowy, 
-    + uczący (względem jakich parametrów ustalane?)
-  </p>
+  dataset-modification works!
+  + uzupełnianie brakujacych danych
+  + dataset walidacyjny,
+  + testowy,
+  + uczący (względem jakich parametrów ustalane?)
+</p>
+
+<div>
+  <h3>Missed values in columns:</h3>
+  <ng-container *ngIf="missedColumns && missedColumns.length !== 0">
+    <button class="btn btn-success" (click)="onApplyImputer()">Apply Imputer for all</button>
+    <hr>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let item of missedColumns">
+        <div class="row">
+          <div class="col-12">
+            {{item.name}}, missed: {{(1 - item.value) * 100}} %
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn btn-danger" (click)="onDeleteOnColumnByName(item.name)">Delete atribute</button> |
+          <button class="btn btn-warning" (click)="onDeleteRows(item.name)">Delete rows</button> |
+          <button class="btn btn-info" (click)="onFillValuesMedian(item.name)">Fill missed values by median</button>
+        </div>
+      </li>
+    </ul>
+  </ng-container>
+  <h3 *ngIf="missedColumns && missedColumns.length === 0">No columns</h3>
+</div>

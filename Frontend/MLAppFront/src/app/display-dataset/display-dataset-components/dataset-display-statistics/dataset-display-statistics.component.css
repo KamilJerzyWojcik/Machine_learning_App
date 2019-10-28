@@ -2,6 +2,11 @@
     background-color: #6c757d;
     color: ivory;
 }
+
+.backgroud-odd {
+  background-color: darkseagreen;
+}
+
 .lds-ring {
     display: inline-block;
     position: relative;

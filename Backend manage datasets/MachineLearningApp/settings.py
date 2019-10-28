@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'dataset.apps.DatasetConfig',
     'subdataset.apps.SubdatasetConfig',
-    'statistic_subdataset.apps.StatisticSubdatasetConfig'
+    'statistic_subdataset.apps.StatisticSubdatasetConfig',
+    'subdataset_modification.apps.SubdatasetModificationConfig'
 ]
 
 MIDDLEWARE = [
